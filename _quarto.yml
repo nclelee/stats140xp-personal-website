@@ -8,6 +8,8 @@ website:
       - href: index.qmd
         text: Landing Page
       - about.qmd
+      - href: projects.qmd
+        text: Projects
 
 format:
   html:
