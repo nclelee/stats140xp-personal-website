@@ -21,3 +21,138 @@ oTest <- read.csv("C:/Users/nicol/Downloads/ObesityTestNoY2.csv")
 library(caret)
 library(xgboost)
 ```
+
+## Clean the data
+
+```{r}
+sum(is.na(oTrain))
+sum(is.na(oTrain$ObStatus))
+sum(is.na(oTest))
+sum(is.na(oTest$ObStatus))
+
+
+get_mode <- function(x) {
+  uniq_vals <- unique(na.omit(x))
+  uniq_vals[which.max(tabulate(match(x, uniq_vals)))]
+}
+
+# Fill in NA values with median of numerical predictor values and mode of categorical predictor values
+oTrainClean <- oTrain
+for(i in 1:ncol(oTrainClean)) {ifelse(is.numeric(oTrainClean[,i]),
+                                      oTrainClean[is.na(oTrainClean[, i]), i] <-
+                                        median(oTrainClean[, i], na.rm = TRUE),
+                                      oTrainClean[is.na(oTrainClean[,i]), i] <-
+                                        get_mode(oTrainClean[,i])) }
+
+oTestClean <- oTest
+for(i in 1:ncol(oTestClean)) {ifelse(is.numeric(oTestClean[,i]),
+                                     oTestClean[is.na(oTestClean[, i]), i] <-
+                                       median(oTestClean[, i], na.rm = TRUE),
+                                     oTestClean[is.na(oTestClean[,i]), i] <-
+                                       get_mode(oTestClean[,i])) }
+```
+
+## Create XGBoost Model
+
+```{r message=FALSE, warning=FALSE}
+xgb_model <- train(ObStatus ~ ., data=oTrainClean, method="xgbTree", trControl=trainControl("cv",number=10), verbose=FALSE)
+```
+
+```{r}
+pred_xgb_train <- predict(xgb_model, oTrainClean)
+1-mean(oTrainClean$ObStatus != pred_xgb_train)
+```
+
+```{r}
+library(gbm)
+```
+
+## Create GBM Model
+
+```{r}
+convert_to_factors <- function(df) {
+  df[] <- lapply(df, function(col) {
+    if (is.character(col) || is.factor(col)) {
+      as.factor(col)
+    } else {
+      col
+    }
+  })
+  return(df)
+}
+
+oTrainClean_gbm <- convert_to_factors(oTrainClean)
+oTestClean_gbm <- convert_to_factors(oTestClean)
+
+oTrainClean_gbm$ObStatus <- ifelse(oTrainClean_gbm$ObStatus == "Obese", 1, 0)
+
+gbm_model <- gbm(ObStatus ~ ., distribution="bernoulli", data=oTrainClean_gbm, n.trees=100, interaction.depth=3, shrinkage=0.01, n.minobsinnode=10, cv.folds=10, verbose=FALSE)
+```
+
+```{r}
+summary(gbm_model)
+par(mfrow=c(1,2))
+```
+
+```{r}
+table(oTrain$ObStatus)
+prop.table(table(oTrain$ObStatus))
+```
+
+```{r}
+gbm_train_pred <- predict(gbm_model, newdata=oTrainClean_gbm, type="response")
+gbm_train_pred_classes <- ifelse(gbm_train_pred > 0.5, "Obese", "Not Obese")
+
+1 - mean(gbm_train_pred_classes != oTrainClean$ObStatus)
+```
+
+## New GBM Model with kNN imputed values
+
+```{r}
+oTrainNew <- read.csv("C:/Users/nicol/Downloads/O_train_lazy_imputed_med.csv")
+oTestNew <- read.csv("C:/Users/nicol/Downloads/O_test_lazy_imputed_med.csv")
+
+oTrain_gbm_updated <- convert_to_factors(oTrainNew)
+oTest_gbm_updated <- convert_to_factors(oTestNew)
+
+oTrain_gbm_updated$ObStatus <- ifelse(oTrain_gbm_updated$ObStatus == "Obese", 1, 0)
+
+gbm_model_updated <- gbm(ObStatus ~ ., distribution="bernoulli", data=oTrain_gbm_updated, n.trees=500, interaction.depth=4, shrinkage=0.1, n.minobsinnode=5, cv.folds=10, verbose=FALSE)
+```
+
+```{r}
+gbm_train_updated_pred <- predict(gbm_model_updated, newdata=oTrain_gbm_updated, type="response")
+gbm_train_updated_pred_classes <- ifelse(gbm_train_updated_pred > 0.5, "Obese", "Not Obese")
+
+1 - mean(gbm_train_updated_pred_classes != oTrainNew$ObStatus)
+```
+
+```{r}
+gbm_test_updated_pred <- predict(gbm_model_updated, newdata=oTest_gbm_updated, type="response")
+gbm_test_updated_pred_classes <- ifelse(gbm_test_updated_pred > 0.5, "Obese", "Not Obese")
+
+oTestResults <- cbind(ID=1:length(gbm_test_updated_pred_classes), ObStatus=gbm_test_updated_pred_classes)
+write.csv(oTestResults, "ObesityTestResults.csv", row.names=FALSE)
+```
+
+## Create Random Forest Model
+
+```{r}
+library(class)
+library(randomForest)
+oTrain$ObStatus <- as.factor(oTrain$ObStatus)
+forest.model=randomForest(oTrain$ObStatus~.,data=oTrainNew,mtry=5,importance=TRUE)
+forest.model
+importance(forest.model)
+```
+
+```{r}
+varImpPlot(forest.model)
+```
+
+```{r}
+predicted <- predict(forest.model, newdata = oTrainNew) 
+plot(predicted, oTrain$ObStatus)
+abline(0, 1)
+importance(forest.model)
+```

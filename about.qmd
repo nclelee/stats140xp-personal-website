@@ -1,9 +1,22 @@
 ---
-title: "About"
+title: "About Me"
 ---
 
-About this site
+## Experience
 
-```{r}
-1 + 1
-```
+Heptapod Inc. \| Marketing Research Intern \| June 2024 – September 2024
+
+Crepas Apparel \| Sales Associate Intern \| June 2023 – August 2023
+
+## Leadership Activites
+
+Theta Kappa Phi \| Class Treasurer \| September 2022 – December 2022
+
+Active Minds \| Founder of Granada Hills Charter High School Branch \| August 2020 – June 2022
+
+## Other interests
+
+I love building and crafting projects. Just in my room, I have five different lego builds on display!
+
+![Here is one of my favorite builds!](lego.jpg)
+
