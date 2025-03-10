@@ -2,10 +2,8 @@
   {
     "listing": "/projects.html",
     "items": [
-      "/projects/project_1.html",
-      "/projects/project_2.html",
-      "/projects/stats101b_project.html",
-      "/projects/stats101a_project.html"
+      "/projects/stats101a_project.html",
+      "/projects/stats101b_project.html"
     ]
   }
 ]

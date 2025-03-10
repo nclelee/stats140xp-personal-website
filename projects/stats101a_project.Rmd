@@ -1,9 +1,10 @@
 ---
-title: "Statistics 101A Project - Group 5: Pokemon Weights"
-author: Ryan Chu, Samvit Garg, Nicole Lee, Naren Prakash, Nathaniel Pranoto Tjong,
-  Oliver Siu
+title: "Pokemon Weights"
+author: Nicole Lee
 date: "2024-03-17"
 ---
+
+Download the [Report](/STATS%20101A%20Final%20Project%20Report.pdf)
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -55,7 +56,6 @@ summary(pokemon_full_model)
 
 ### c) NA values
 
-
 ```{r p2c}
 which(!complete.cases(pokemon_subset))
 pokemon_subset[which(!complete.cases(pokemon_subset)), ]
@@ -78,7 +78,6 @@ for (i in colnames(pokemon_subset)) {
 }
 ```
 
-
 ### f) Original Model Diagnostics
 
 ```{r p2f, cache = TRUE}
@@ -92,7 +91,7 @@ plot(pokemon_full_model)
 cof <- summary(pokemon_full_model)$coefficients
 ```
 
-**Original Model:**  
+**Original Model:**\
 $$\begin{aligned}
 \text{weight}
 &= `r cof[1]`
@@ -143,7 +142,7 @@ pow <- summary(pokemon_full_model_pt)$result[, 2]
 cof <- summary(t_pokemon_model)$coefficients
 ```
 
-**Box-cox model:**  
+**Box-cox model:**\
 $$\begin{aligned}
 \text{weight}^{`r pow[1]`}
 &= `r cof[1]`
@@ -206,7 +205,7 @@ pow <- summary(exp_model)$result[, 2]
 cof <- t2_pokemon_model$coefficients
 ```
 
-**Inverse response plot model:**  
+**Inverse response plot model:**\
 $$\begin{aligned}
 \text{weight}^{0.35}
 &= `r cof[1]`
@@ -289,7 +288,6 @@ pairs(t_weight ~ t_bes + t_attack + t_defense + t_hp + t_sa + t_sd + t_cp + expe
 cor(cbind(t_weight, t_bes, t_attack, t_defense, t_hp, t_sa, t_sd, t_cp, experience_growth))
 ```
 
-
 ### b) Added Variable Plots
 
 ```{r p6b}
@@ -298,8 +296,6 @@ for (i in names(t_pokemon_model$coefficients)[-1]) {
   avPlot(t_pokemon_model, variable = i, ask = FALSE)
 }
 ```
-
-
 
 ## 7. Selecting via All Possible Subsets
 
@@ -395,17 +391,17 @@ forwardAIC <- step(pokemon_base,
 
 ### e) Best Models
 
-- Backwards AIC: t_weight ~ t_bes + t_attack + t_defense + t_hp + t_sa + t_sd + t_cp + experience_growth
-- Backwards BIC: t_weight ~ t_bes + t_attack + t_defense + t_hp
-- Forwards AIC: t_weight ~ t_hp + t_defense + t_attack + t_bes + experience_growth + t_sd + t_sa + t_cp
-- Forwards BIC: t_weight ~ t_hp + t_defense + t_attack + t_bes
+-   Backwards AIC: t_weight \~ t_bes + t_attack + t_defense + t_hp + t_sa + t_sd + t_cp + experience_growth
+-   Backwards BIC: t_weight \~ t_bes + t_attack + t_defense + t_hp
+-   Forwards AIC: t_weight \~ t_hp + t_defense + t_attack + t_bes + experience_growth + t_sd + t_sa + t_cp
+-   Forwards BIC: t_weight \~ t_hp + t_defense + t_attack + t_bes
 
 ## 9. Final Model Selection
 
 Candidate models:
 
-- p4 (reduced model)
-- t_pokemon_model (full model)
+-   p4 (reduced model)
+-   t_pokemon_model (full model)
 
 ### a) Summary Comparison
 
@@ -430,9 +426,8 @@ plot(p4)
 
 ### d) Conclusion
 
-- Since the ANOVA p-value < 0.05, we reject $H_0$, and there is sufficient evidence against the reduced model in favor of the full
-model.
-- The full model is also preferred as the reduced model does not have significantly better diagnostic plots.
+-   Since the ANOVA p-value \< 0.05, we reject $H_0$, and there is sufficient evidence against the reduced model in favor of the full model.
+-   The full model is also preferred as the reduced model does not have significantly better diagnostic plots.
 
 ## 10. Final Model
 
@@ -449,7 +444,7 @@ pow <- summary(pokemon_full_model_pt)$result[, 2]
 cof <- summary(t_pokemon_model)$coefficients
 ```
 
-**Final Model via Box-Cox:**  
+**Final Model via Box-Cox:**\
 $$\begin{aligned}
 \text{weight}^{`r pow[1]`}
 &= `r cof[1]`

@@ -9,6 +9,9 @@ about:
       href: https://github.com/nclelee
     - text: Email
       url: "mailto:nicolelee1090@gmail.com"
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/lee-nicole-/
 ---
 
 Hi! My name is Nicole Lee and I am a 3rd year majoring in Statistics and Data Science at UCLA. I'm passionate about leveraging machine learning and statistical models to turn raw data into valuable insights that drive decision-making processes. Download [My Resume](/Nicole_Lee_Resume.pdf)

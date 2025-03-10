@@ -4,6 +4,8 @@ author: "Nicole Lee"
 date: "June 9, 2024"
 ---
 
+Download the [Report](/101B%20Final%20Report%20.pdf)
+
 ```{r}
 df <- read.csv("C:/Users/nicol/OneDrive/Desktop/stats140/personal-website/projects/stats101b_project_data.csv")
 head(df)
