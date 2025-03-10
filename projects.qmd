@@ -4,4 +4,5 @@ listing:
   type: table
   contents:
     - "projects/*.qmd"
+    - "projects/*.Rmd"
 ---

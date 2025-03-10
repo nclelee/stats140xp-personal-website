@@ -1,0 +1,61 @@
+---
+title: "Statistical Modeling Experimental Analysis of Cognitive Effects"
+author: "Nicole Lee"
+date: "June 9, 2024"
+---
+
+```{r}
+df <- read.csv("C:/Users/nicol/OneDrive/Desktop/stats140/personal-website/projects/stats101b_project_data.csv")
+head(df)
+```
+
+## Reorganizing data
+
+```{r}
+library(tidyr)
+library(dplyr)
+
+df_long <- df %>%
+  pivot_longer(cols = c(NoCig, Cig), 
+               names_to = "cigarette", 
+               values_to = "memory") %>%
+  mutate(cigarette = ifelse(cigarette == "NoCig", -1, 1))
+
+df2 <- df_long %>% select(c("Over50", "cigarette", "memory"))
+head(df2)
+```
+
+## ANOVA test for RCBD with cigarette treatment and age block
+
+```{r}
+m1 <- aov(memory~cigarette+Over50, data=df2)
+summary(m1)
+
+# Test with no block
+summary(aov(memory~cigarette,data=df2))
+```
+
+## Power Calculations
+
+```{r}
+library(pwr)
+
+d <- 1.565
+f <- d/sqrt(73.48)
+pwr.anova.test(k=2, n=60, f=f ,sig.level=0.05)
+```
+
+## Paired t-test with cigarette treatment, no blocks
+
+```{r}
+var.test(df$NoCig, df$Cig)
+t.test(df$NoCig,df$Cig, paired=T, var.equal=T)
+```
+
+## Checking Model Adequacy
+
+```{r}
+res1 <- m1$residuals
+qqnorm(res1); qqline(res1)
+plot(m1, 1)
+```

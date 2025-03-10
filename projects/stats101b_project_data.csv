@@ -1,0 +1,61 @@
+Name,Village,House,Age,Sex,Smoking Status,NoCig,Cig,Over50
+ANAMICA PRICE,Helvig,94,18,female,nonsmoker,50.2,50.2,-1
+AGDA SORENSEN,Helvig,41,21,female,nonsmoker,49.6,42.5,-1
+KAYLEIGH KIMURA,Bjurholm,189,21,female,nonsmoker,50.9,61.8,-1
+JACKSON CONNOLLY,Bjurholm,156,23,male,light smoker,39.5,37.7,-1
+ABIGAIL WATANABE,Vardo,7,23,female,lightsmoker,61.6,51,-1
+JACOB HALL,Bjurholm,419,24,male,nonsmoker,114,120,-1
+NICO PALLESEN,Bjurholm,165,24,male,nonsmoker,76.6,74.1,-1
+Franziska Bergmann,Hofn,,25,Female,Nonsmoker,76.6,70.7,-1
+Kieran Hall,Hofn,24,26,Male,Light smoker,56.3,57.6,-1
+AKIRA MORRIS,Vardo,161,26,male,lightsmoker,53.1,38.8,-1
+DAVID ERICKSON,Helluland,392,26,male,moderate smoker,59,51.2,-1
+Emma Eklund,Hofn,14,26,Female,Nonsmoker,70.9,75.2,-1
+TORSTEN JENSEN,Blonduos,375,28,male,light smoker,66.5,59.6,-1
+MIA LUND,Helvig,90,28,female,nonsmoker,48,47.1,-1
+Arya Dhar,Hofn,101,28,Female,Nonsmoker,63.3,72.8,-1
+TAYLOR WILSON,Vardo,330,29,male,nonsmoker,75,73.8,-1
+ERLING CARLSEN ,Vardo,50,30,male,lightsmoker,77.4,76,-1
+LARS BAGER,Blonduos,6,32,male,nonsmoker,69.2,60,-1
+AMIE CONNOLLY,Bjurholm,294,32,female,nonsmoker,62,57.3,-1
+OLE EKLUND,Helvig,316,34,male,nonsmoker,53.9,63.1,-1
+CATHERINE HUGHES,Helvig,116,34,female,nonsmoker,65,58.1,-1
+INESH ACHARI,Blonduos,56,36,male,nonsmoker,68.9,69,-1
+NIHAL BAHADUR,Bjurholm,433,36,male,nonsmoker,44.4,47,-1
+CARLOS GEORGES,Vardo,569,40,male,nonsmoker,70.4,77.6,-1
+HARRI BERGMANN,Vardo,36,41,male,nonsmoker,58.8,49.9,-1
+Julia Sorensen,Hofn,655,46,Female,Nonsmoker,55.7,59.3,-1
+DAHL IBSEN,Helvig,262,47,female,moderate smoker,66,57.4,-1
+JACQUES JACOBSEN,Blonduos,147,48,male,nonsmoker,81,71.9,-1
+RUDOLF MARX,Blonduos,149,48,male,nonsmoker,62.4,55.1,-1
+JAMES JONES,Helluland,2,48,male,nonsmoker,50.8,54.3,-1
+ERLING SORENSEN,Bjurholm,58,48,male,nonsmoker,60.8,59.7,-1
+SIMON SOLBERG,Helluland,280,50,male,light smoker,67.7,74.8,1
+Naoki edwards,Hofn,447,50,Male,Nonsmoker,47.7,38.6,1
+Riley Wilson,Hofn,350,50,Male,Nonsmoker,72.2,69.8,1
+HALDEN CLAUSEN,Blonduos,279,51,male,nonsmoker,60.8,66.5,1
+MAGDALENA ERICKSON,Vardo,70,52,female,nonsmoker,55.2,53.8,1
+HELGA SORENSEN,Blonduos,310,52,female,nonsmoker,53.6,55.3,1
+LEA SOLBERG,Helvig,159,53,female,nonsmoker,79.6,82.3,1
+Leonie Blomgren,Hofn,18,54,Female,Non-smoker,74.7,69.1,1
+Lukas Olsen,Hofn,600,55,Male,Nonsmoker,64.6,58.4,1
+SOREN BLOMGREN,Helvig,235,56,male,nonsmoker,54.9,47.6,1
+PANTEA SOLBERG,Bjurholm,237,56,female,nonsmoker,46.6,52,1
+TOBIAS SORENSEN,Helvig,16,58,male,nonsmoker,59.2,61.2,1
+OLINA BLOMGREN,Blonduos,224,60,female,nonsmoker,68.8,65,1
+SAEED DHAR,Bjurholm,71,61,male,nonsmoker,69.1,55,1
+BALAN AGARWAL,Bjurholm,306,61,male,nonsmoker,60.5,60,1
+DIETER FRANKE,Vardo,575,65,male,nonsmoker,60.3,56.1,1
+DR ANSEL EDWARDS,Helluland,240,69,male,nonsmoker,70.1,69,1
+LORD TYR THORN,Vardo,401,69,male,nonsmoker,55.6,45.5,1
+JORN BLOMGREN,Helvig,431,72,male,light smoker,43.1,43.2,1
+MALENA CARLSEN,Helluland,277,72,female,nonsmoker,61.5,59.7,1
+SEYMOUR SUZUKI,Helluland,162,76,male,light smoker,80.2,87,1
+HENRIK CARLSEN,Helluland,389,77,male,light smoker,62.7,69.5,1
+KELDA EKLUND,Helluland,3,77,female,nonsmoker,45.3,42.5,1
+NICO SOLBERG,Helluland,25,77,male,nonsmoker,58.7,57.6,1
+ULRIKE MARX,Vardo,196,81,female,nonsmoker,56.4,47.3,1
+Lassus Dhar,Hofn,108,84,Female,Nonsmoker,74.8,74.4,1
+DELPHINE LEFEVRE,Blonduos,105,86,female,nonsmoker,52.9,59.6,1
+PRANAY BAHADUR,Helluland,6,94,male,nonsmoker,75.4,72.9,1
+ETIENNE JENSEN,Blonduos,260,110,male,nonsmoker,75.1,77.7,1
