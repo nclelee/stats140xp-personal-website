@@ -7,90 +7,6 @@
     "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nMar 17, 2024\n\n\nPokemon Weights\n\n\nNicole Lee\n\n\n\n\nJun 9, 2024\n\n\nStatistical Modeling Experimental Analysis of Cognitive Effects\n\n\nNicole Lee\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "projects/project_1.html",
-    "href": "projects/project_1.html",
-    "title": "Project 1",
-    "section": "",
-    "text": "print(1:10)\n\n [1]  1  2  3  4  5  6  7  8  9 10"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site\n\n1 + 1\n\n[1] 2"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Nicole Lee",
-    "section": "",
-    "text": "Hi! My name is Nicole Lee and I am a 3rd year majoring in Statistics and Data Science at UCLA. I’m passionate about leveraging machine learning and statistical models to turn raw data into valuable insights that drive decision-making processes. Download My Resume"
-  },
-  {
-    "objectID": "index.html#education",
-    "href": "index.html#education",
-    "title": "Nicole Lee",
-    "section": "Education",
-    "text": "Education\nUniversity of California, Los Angeles | Los Angeles, CA Bachelor of Science in Statistics and Data Science | Sept 2022 - June 2026"
-  },
-  {
-    "objectID": "index.html#experience",
-    "href": "index.html#experience",
-    "title": "Nicole Lee",
-    "section": "Experience",
-    "text": "Experience\nWengo Analytics | Head Data Scientist | April 2018 - present\nGeoScynce | Chief Analyst | Spet 2012 - April 2018"
-  },
-  {
-    "objectID": "projects/project_2.html",
-    "href": "projects/project_2.html",
-    "title": "Project 2",
-    "section": "",
-    "text": "print(1:20)\n\n [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20"
-  },
-  {
-    "objectID": "projects/stats101b_project.html",
-    "href": "projects/stats101b_project.html",
-    "title": "Statistical Modeling Experimental Analysis of Cognitive Effects",
-    "section": "",
-    "text": "Download the Report\ndf &lt;- read.csv(\"C:/Users/nicol/OneDrive/Desktop/stats140/personal-website/projects/stats101b_project_data.csv\")\nhead(df)\n\n              Name  Village House Age    Sex Smoking.Status NoCig   Cig Over50\n1    ANAMICA PRICE   Helvig    94  18 female      nonsmoker  50.2  50.2     -1\n2    AGDA SORENSEN   Helvig    41  21 female      nonsmoker  49.6  42.5     -1\n3  KAYLEIGH KIMURA Bjurholm   189  21 female      nonsmoker  50.9  61.8     -1\n4 JACKSON CONNOLLY Bjurholm   156  23   male   light smoker  39.5  37.7     -1\n5 ABIGAIL WATANABE    Vardo     7  23 female    lightsmoker  61.6  51.0     -1\n6       JACOB HALL Bjurholm   419  24   male      nonsmoker 114.0 120.0     -1"
-  },
-  {
-    "objectID": "projects/stats101b_project.html#reorganizing-data",
-    "href": "projects/stats101b_project.html#reorganizing-data",
-    "title": "Statistical Modeling Experimental Analysis of Cognitive Effects",
-    "section": "Reorganizing data",
-    "text": "Reorganizing data\n\nlibrary(tidyr)\nlibrary(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\ndf_long &lt;- df %&gt;%\n  pivot_longer(cols = c(NoCig, Cig), \n               names_to = \"cigarette\", \n               values_to = \"memory\") %&gt;%\n  mutate(cigarette = ifelse(cigarette == \"NoCig\", -1, 1))\n\ndf2 &lt;- df_long %&gt;% select(c(\"Over50\", \"cigarette\", \"memory\"))\nhead(df2)\n\n# A tibble: 6 × 3\n  Over50 cigarette memory\n   &lt;int&gt;     &lt;dbl&gt;  &lt;dbl&gt;\n1     -1        -1   50.2\n2     -1         1   50.2\n3     -1        -1   49.6\n4     -1         1   42.5\n5     -1        -1   50.9\n6     -1         1   61.8"
-  },
-  {
-    "objectID": "projects/stats101b_project.html#anova-test-for-rcbd-with-cigarette-treatment-and-age-block",
-    "href": "projects/stats101b_project.html#anova-test-for-rcbd-with-cigarette-treatment-and-age-block",
-    "title": "Statistical Modeling Experimental Analysis of Cognitive Effects",
-    "section": "ANOVA test for RCBD with cigarette treatment and age block",
-    "text": "ANOVA test for RCBD with cigarette treatment and age block\n\nm1 &lt;- aov(memory~cigarette+Over50, data=df2)\nsummary(m1)\n\n             Df Sum Sq Mean Sq F value Pr(&gt;F)\ncigarette     1     73   73.48   0.419  0.519\nOver50        1      8    8.03   0.046  0.831\nResiduals   117  20529  175.47               \n\n# Test with no block\nsummary(aov(memory~cigarette,data=df2))\n\n             Df Sum Sq Mean Sq F value Pr(&gt;F)\ncigarette     1     73   73.48   0.422  0.517\nResiduals   118  20538  174.05"
-  },
-  {
-    "objectID": "projects/stats101b_project.html#power-calculations",
-    "href": "projects/stats101b_project.html#power-calculations",
-    "title": "Statistical Modeling Experimental Analysis of Cognitive Effects",
-    "section": "Power Calculations",
-    "text": "Power Calculations\n\nlibrary(pwr)\n\nWarning: package 'pwr' was built under R version 4.4.3\n\nd &lt;- 1.565\nf &lt;- d/sqrt(73.48)\npwr.anova.test(k=2, n=60, f=f ,sig.level=0.05)\n\n\n     Balanced one-way analysis of variance power calculation \n\n              k = 2\n              n = 60\n              f = 0.1825701\n      sig.level = 0.05\n          power = 0.5094948\n\nNOTE: n is number in each group"
-  },
-  {
-    "objectID": "projects/stats101b_project.html#paired-t-test-with-cigarette-treatment-no-blocks",
-    "href": "projects/stats101b_project.html#paired-t-test-with-cigarette-treatment-no-blocks",
-    "title": "Statistical Modeling Experimental Analysis of Cognitive Effects",
-    "section": "Paired t-test with cigarette treatment, no blocks",
-    "text": "Paired t-test with cigarette treatment, no blocks\n\nvar.test(df$NoCig, df$Cig)\n\n\n    F test to compare two variances\n\ndata:  df$NoCig and df$Cig\nF = 0.78012, num df = 59, denom df = 59, p-value = 0.3429\nalternative hypothesis: true ratio of variances is not equal to 1\n95 percent confidence interval:\n 0.4659871 1.3060303\nsample estimates:\nratio of variances \n         0.7801239 \n\nt.test(df$NoCig,df$Cig, paired=T, var.equal=T)\n\n\n    Paired t-test\n\ndata:  df$NoCig and df$Cig\nt = 1.9963, df = 59, p-value = 0.05053\nalternative hypothesis: true mean difference is not equal to 0\n95 percent confidence interval:\n -0.003698997  3.133698997\nsample estimates:\nmean difference \n          1.565"
-  },
-  {
-    "objectID": "projects/stats101b_project.html#checking-model-adequacy",
-    "href": "projects/stats101b_project.html#checking-model-adequacy",
-    "title": "Statistical Modeling Experimental Analysis of Cognitive Effects",
-    "section": "Checking Model Adequacy",
-    "text": "Checking Model Adequacy\n\nres1 &lt;- m1$residuals\nqqnorm(res1); qqline(res1)\n\n\n\n\n\n\n\nplot(m1, 1)"
-  },
-  {
     "objectID": "projects/stats101a_project.html",
     "href": "projects/stats101a_project.html",
     "title": "Pokemon Weights",
@@ -173,5 +89,75 @@
     "title": "Pokemon Weights",
     "section": "10. Final Model",
     "text": "10. Final Model\n\na) Summary Statistics\n\nsummary(t_pokemon_model)\n\n\nCall:\nlm(formula = t_weight ~ t_bes + t_attack + t_defense + t_hp + \n    t_sa + t_sd + t_cp + experience_growth)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-1.29697 -0.14664  0.00619  0.17558  1.21196 \n\nCoefficients:\n                    Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)       -7.153e-01  2.815e-01  -2.541   0.0112 *  \nt_bes             -2.737e+01  1.470e+01  -1.861   0.0631 .  \nt_attack           3.738e-02  7.684e-03   4.864 1.39e-06 ***\nt_defense          1.587e-01  2.592e-02   6.122 1.47e-09 ***\nt_hp               2.643e-01  2.725e-02   9.700  &lt; 2e-16 ***\nt_sa              -4.448e-02  2.299e-02  -1.934   0.0534 .  \nt_sd               3.049e-01  1.403e-01   2.173   0.0301 *  \nt_cp              -2.303e-02  1.280e-02  -1.799   0.0724 .  \nexperience_growth  1.793e-07  7.144e-08   2.510   0.0123 *  \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 0.296 on 773 degrees of freedom\n  (20 observations deleted due to missingness)\nMultiple R-squared:  0.4637,    Adjusted R-squared:  0.4581 \nF-statistic: 83.54 on 8 and 773 DF,  p-value: &lt; 2.2e-16\n\n\n\n\nb) Formula\n\npow &lt;- summary(pokemon_full_model_pt)$result[, 2]\ncof &lt;- summary(t_pokemon_model)$coefficients\n\nFinal Model via Box-Cox:\n\\[\\begin{aligned}\n\\text{weight}^{0.16}\n&= -0.71529\n-27.3651527 * \\text{base egg steps}^{-0.67}\n+ 0.0373754 * \\text{attack}^{0.5}\n+ 0.1586544 * \\text{defense}^{0.33} \\\\\n&+ 0.2643399 * \\text{hp}^{0.33}\n-0.0444752 * \\text{sp_attack}^{0.33}\n+ 0.3048735 * \\text{sp_defense}^{0.15} \\\\\n&-0.0230343 * \\text{capture_rate}^{0.33}\n+ 1.7932379\\times 10^{-7} * \\text{experience_growth}\n\\end{aligned}\\]"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Nicole Lee",
+    "section": "",
+    "text": "Hi! My name is Nicole Lee and I am a 3rd year majoring in Statistics and Data Science at UCLA. I’m passionate about leveraging machine learning and statistical models to turn raw data into valuable insights that drive decision-making processes. Download My Resume"
+  },
+  {
+    "objectID": "index.html#education",
+    "href": "index.html#education",
+    "title": "Nicole Lee",
+    "section": "Education",
+    "text": "Education\nUniversity of California, Los Angeles | Los Angeles, CA Bachelor of Science in Statistics and Data Science | Sept 2022 - June 2026"
+  },
+  {
+    "objectID": "index.html#experience",
+    "href": "index.html#experience",
+    "title": "Nicole Lee",
+    "section": "Experience",
+    "text": "Experience\nWengo Analytics | Head Data Scientist | April 2018 - present\nGeoScynce | Chief Analyst | Spet 2012 - April 2018"
+  },
+  {
+    "objectID": "projects/stats101b_project.html",
+    "href": "projects/stats101b_project.html",
+    "title": "Statistical Modeling Experimental Analysis of Cognitive Effects",
+    "section": "",
+    "text": "Download the Report\ndf &lt;- read.csv(\"C:/Users/nicol/OneDrive/Desktop/stats140/personal-website/projects/stats101b_project_data.csv\")\nhead(df)\n\n              Name  Village House Age    Sex Smoking.Status NoCig   Cig Over50\n1    ANAMICA PRICE   Helvig    94  18 female      nonsmoker  50.2  50.2     -1\n2    AGDA SORENSEN   Helvig    41  21 female      nonsmoker  49.6  42.5     -1\n3  KAYLEIGH KIMURA Bjurholm   189  21 female      nonsmoker  50.9  61.8     -1\n4 JACKSON CONNOLLY Bjurholm   156  23   male   light smoker  39.5  37.7     -1\n5 ABIGAIL WATANABE    Vardo     7  23 female    lightsmoker  61.6  51.0     -1\n6       JACOB HALL Bjurholm   419  24   male      nonsmoker 114.0 120.0     -1"
+  },
+  {
+    "objectID": "projects/stats101b_project.html#reorganizing-data",
+    "href": "projects/stats101b_project.html#reorganizing-data",
+    "title": "Statistical Modeling Experimental Analysis of Cognitive Effects",
+    "section": "Reorganizing data",
+    "text": "Reorganizing data\n\nlibrary(tidyr)\nlibrary(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\ndf_long &lt;- df %&gt;%\n  pivot_longer(cols = c(NoCig, Cig), \n               names_to = \"cigarette\", \n               values_to = \"memory\") %&gt;%\n  mutate(cigarette = ifelse(cigarette == \"NoCig\", -1, 1))\n\ndf2 &lt;- df_long %&gt;% select(c(\"Over50\", \"cigarette\", \"memory\"))\nhead(df2)\n\n# A tibble: 6 × 3\n  Over50 cigarette memory\n   &lt;int&gt;     &lt;dbl&gt;  &lt;dbl&gt;\n1     -1        -1   50.2\n2     -1         1   50.2\n3     -1        -1   49.6\n4     -1         1   42.5\n5     -1        -1   50.9\n6     -1         1   61.8"
+  },
+  {
+    "objectID": "projects/stats101b_project.html#anova-test-for-rcbd-with-cigarette-treatment-and-age-block",
+    "href": "projects/stats101b_project.html#anova-test-for-rcbd-with-cigarette-treatment-and-age-block",
+    "title": "Statistical Modeling Experimental Analysis of Cognitive Effects",
+    "section": "ANOVA test for RCBD with cigarette treatment and age block",
+    "text": "ANOVA test for RCBD with cigarette treatment and age block\n\nm1 &lt;- aov(memory~cigarette+Over50, data=df2)\nsummary(m1)\n\n             Df Sum Sq Mean Sq F value Pr(&gt;F)\ncigarette     1     73   73.48   0.419  0.519\nOver50        1      8    8.03   0.046  0.831\nResiduals   117  20529  175.47               \n\n# Test with no block\nsummary(aov(memory~cigarette,data=df2))\n\n             Df Sum Sq Mean Sq F value Pr(&gt;F)\ncigarette     1     73   73.48   0.422  0.517\nResiduals   118  20538  174.05"
+  },
+  {
+    "objectID": "projects/stats101b_project.html#power-calculations",
+    "href": "projects/stats101b_project.html#power-calculations",
+    "title": "Statistical Modeling Experimental Analysis of Cognitive Effects",
+    "section": "Power Calculations",
+    "text": "Power Calculations\n\nlibrary(pwr)\n\nWarning: package 'pwr' was built under R version 4.4.3\n\nd &lt;- 1.565\nf &lt;- d/sqrt(73.48)\npwr.anova.test(k=2, n=60, f=f ,sig.level=0.05)\n\n\n     Balanced one-way analysis of variance power calculation \n\n              k = 2\n              n = 60\n              f = 0.1825701\n      sig.level = 0.05\n          power = 0.5094948\n\nNOTE: n is number in each group"
+  },
+  {
+    "objectID": "projects/stats101b_project.html#paired-t-test-with-cigarette-treatment-no-blocks",
+    "href": "projects/stats101b_project.html#paired-t-test-with-cigarette-treatment-no-blocks",
+    "title": "Statistical Modeling Experimental Analysis of Cognitive Effects",
+    "section": "Paired t-test with cigarette treatment, no blocks",
+    "text": "Paired t-test with cigarette treatment, no blocks\n\nvar.test(df$NoCig, df$Cig)\n\n\n    F test to compare two variances\n\ndata:  df$NoCig and df$Cig\nF = 0.78012, num df = 59, denom df = 59, p-value = 0.3429\nalternative hypothesis: true ratio of variances is not equal to 1\n95 percent confidence interval:\n 0.4659871 1.3060303\nsample estimates:\nratio of variances \n         0.7801239 \n\nt.test(df$NoCig,df$Cig, paired=T, var.equal=T)\n\n\n    Paired t-test\n\ndata:  df$NoCig and df$Cig\nt = 1.9963, df = 59, p-value = 0.05053\nalternative hypothesis: true mean difference is not equal to 0\n95 percent confidence interval:\n -0.003698997  3.133698997\nsample estimates:\nmean difference \n          1.565"
+  },
+  {
+    "objectID": "projects/stats101b_project.html#checking-model-adequacy",
+    "href": "projects/stats101b_project.html#checking-model-adequacy",
+    "title": "Statistical Modeling Experimental Analysis of Cognitive Effects",
+    "section": "Checking Model Adequacy",
+    "text": "Checking Model Adequacy\n\nres1 &lt;- m1$residuals\nqqnorm(res1); qqline(res1)\n\n\n\n\n\n\n\nplot(m1, 1)"
   }
 ]
