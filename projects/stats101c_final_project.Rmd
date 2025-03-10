@@ -1,0 +1,23 @@
+---
+title: "Model Optimization and Prediction Using Machine-Learning"
+author: "Nicole Lee"
+description: "Applied machine learning algorithms like logistic regression and decision trees achieving a prediction accuracy of 97%. Optimized model performance through cross-validation, feature selection, and parameter tuning. Developed a predictive model in R to classify obesity status based on demographic and health-related variable."
+date: "Dec 2, 2024"
+---
+
+Download the [Report](/Final Project Paper - The Overfitters.pdf)
+
+## Load the Data
+
+```{r}
+set.seed(12345)
+
+# Datasets
+oTrain <- read.csv("C:/Users/nicol/Downloads/ObesityTrain2.csv")
+oTest <- read.csv("C:/Users/nicol/Downloads/ObesityTestNoY2.csv")
+```
+
+```{r}
+library(caret)
+library(xgboost)
+```

@@ -1,6 +1,7 @@
 ---
 title: "Statistical Modeling Experimental Analysis of Cognitive Effects"
 author: "Nicole Lee"
+description: "Evaluate nicotine's cognitive effects by employing statistical models in R. Retrieved data collection with 60 participants and developed a randomized complete block design (RCBD). Cleaned data and created tailored data visualizations comparing memory performance pre and post nicotine use. Utilized R for statistical modeling, including ANOVA, paired t-tests, and power calculations." 
 date: "June 9, 2024"
 ---
 

@@ -1,6 +1,7 @@
 ---
 title: "Pokemon Weights"
 author: Nicole Lee
+description: "Developed a predictive model in R to determine how a Pokémon’s stats in-game predict its “real-life” weight. Fit a linear multiple regression model and performed transformations to fit data."
 date: "2024-03-17"
 ---
 
