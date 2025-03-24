@@ -1,0 +1,330 @@
+---
+title: "Assessing Fiscal Risk and Financial Stability"
+author: "Nicole Lee"
+description: "Leveraged machine learning algorithms like ordinal logistic regression and decision trees to achieving 92% prediction accuracy. Visualized key trends to support strategic recommendations for early policy intervention."
+date: "2025-03-07"
+---
+
+Download the [Report](/stats_140xp_paper.pdf)
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+data <- read.csv("C:/Users/nicol/Downloads/fy2019-20 (1).csv")
+```
+
+
+```{r}
+# Convert risk columns (columns 13:23) into factors
+# Standardize levels: ALL CAPS
+data[,13] <- as.factor(data[,13])
+levels(data[,13])<- c("LOW", "MODERATE", "HIGH")
+
+for (i in 0:9){
+  data[,13+i] <- factor(data[,13+i], order=TRUE, levels = c("LOW", "MODERATE", "HIGH"))
+}
+```
+
+Column num, Items 
+1: City Names 
+2-12: Rank 
+13-23: Risk 
+24-34: Points 
+35-44: Ratio 
+45-66: Other Numeric Data
+
+```{r}
+# Numeric Items
+points <- data[, 24:34]
+ratio <- data[, 35:44]
+numeric <- data[, 45:66]
+```
+
+# 1. Exploratory Data Analysis:
+
+## Correlation Analysis:
+
+Consider take out some of the highly correlated variables when modeling
+
+### Correlation Analysis Using Ratios:
+
+```{r}
+# Correlation
+ratio_corr <- cor(ratio, use = "complete.obs")
+ratio_corr
+heatmap(ratio_corr)
+```
+
+### Correlation Analysis Using Other Numeric Variables:
+
+```{r}
+# Correlation
+numeric_corr <- cor(numeric, use = "complete.obs")
+numeric_corr
+heatmap(numeric_corr)
+```
+
+### Summary Statistics for Other Numeric Variables:
+
+```{r}
+# Summary statistics
+summary(data[45:66])
+```
+
+### Missing Values
+
+Consider using only complete objects or use mean and mode imputation when modeling
+
+```{r}
+# Missing values per variable
+missing.values <- data.frame(
+Missing_Count = colSums(is.na(data))
+)
+missing.values
+```
+
+### Boxplots: Points and Risks
+
+```{r}
+# Points by Risk Boxplots
+cat <- 13
+num <- 24
+
+for (i in 1:11){
+  # Boxplot
+  cat_col <- names(data)[cat] # Categorical variable
+  num_col <- names(data)[num] # Numeric variable
+
+  y_min <- min(data[[num_col]], na.rm = TRUE)
+  y_max <- max(data[[num_col]], na.rm = TRUE)
+  y_margin <- (y_max - y_min) * 0.1 # Add 10% margin for better centering
+  
+  p <- ggplot(
+    data, 
+    aes_string(x = cat_col, y = num_col, fill = cat_col)) + 
+    geom_boxplot(alpha = 0.7, outlier.shape = NA) + # Hide outliers for better centering
+    coord_cartesian(ylim = c(y_min - y_margin, y_max + y_margin)) + # Adjust limits dynamically
+    labs(title = paste("Boxplot of", num_col, "by", cat_col),
+         x = cat_col,
+         y = num_col,
+         fill = cat_col) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+  # Print the plot
+  print(p)
+
+  cat <- cat +1
+  num <- num +1
+}
+```
+
+For each risk category, getting higher points means lower risk in the specific category. However, due to different range of points in different categories overall points are not meaningfully corresponding to overall risk level for the local governments.
+
+### Boxplots: Ratio and Risks
+
+```{r}
+# Ratio by Risk
+cat <- 14
+num <- 35
+
+for (i in 1:10){
+
+  # Boxplot
+  cat_col <- names(data)[cat] # Categorical variable
+  num_col <- names(data)[num] # Numeric variable
+  y_min <- min(data[[num_col]], na.rm = TRUE)
+  y_max <- max(data[[num_col]], na.rm = TRUE)
+  y_margin <- (y_max - y_min) * 0.1 # Add 10% margin for better centering
+
+  p <- ggplot(data, aes_string(x = cat_col, y = num_col, fill = cat_col)) +
+    geom_boxplot(alpha = 0.7, outlier.shape = NA) + # Hide outliers for better centering
+    coord_cartesian(ylim = c(y_min - y_margin, y_max + y_margin)) + # Adjust limits dynamically
+    labs(title = paste("Boxplot of", num_col, "by", cat_col),
+         x = cat_col,
+         y = num_col,
+         fill = cat_col) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  
+  # Print the plot
+  print(p)
+
+  cat <- cat +1
+  num <- num +1
+}
+```
+
+Ratio can potentially be either positively or negatively related to their specific Risks.
+
+### Mean and mode imputation
+
+```{r}
+library(tidyverse)
+# Impute missing values with column means
+data_imputed <- data %>%
+  mutate(across(where(is.numeric), ~ ifelse(is.na(.), mean(., na.rm = TRUE), .)))
+missing_counts <- colSums(is.na(data_imputed))
+```
+
+```{r}
+# Check Missing values per variable after imputation
+missing.imputed <- data.frame(
+  Missing_Count = colSums(is.na(data_imputed))
+)
+sum(missing.imputed)
+
+```
+
+### Histogram of Risk Levels
+
+```{r}
+# Histogram of Risk Levels by Variables
+cat <- 13
+for (i in 1:11) {
+  cat_col <- names(data)[cat] # Categorical variable
+  
+  p <- ggplot(data, aes_string(x = cat_col, fill = cat_col)) +
+    geom_bar() +
+    labs(title = paste("Histogram of Risk Levels for", cat_col),
+         x = cat_col,
+         y = "Count",
+         fill = "Risk Level") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  
+  print(p)
+  cat <- cat + 1
+}
+```
+
+## 2. Statistic Modeling:
+
+### Ordinal logistic regression:
+
+```{r}
+library(MASS)
+library(ordinal)
+
+ordinal_model <- clm(Overall_Risk ~ General_Fund_Reserves_Ratio + Debt_Burden_Ratio + Liquidity_Ratio + Revenue_Trends_Ratio + Pension_Obligations_Ratio + Pension_Funding_Ratio + Pension_Costs_Ratio + Future_Pension_Costs_Ratio + OPEB_Obligations_Ratio + OPEB_Funding_Ratio,
+  data = data_imputed,
+  link = "logit"
+)
+summary(ordinal_model)
+```
+
+## 3. Predictive Modeling:
+
+### Random Forests:
+
+```{r}
+library(tidyverse)
+library(randomForest)
+library(gbm)
+library(caret)
+
+selected_vars <- c("Overall_Risk", "General_Fund_Reserves_Ratio", "Debt_Burden_Ratio", 
+                   "Liquidity_Ratio", "Revenue_Trends_Ratio", "Pension_Obligations_Ratio", 
+                   "Pension_Funding_Ratio", "Pension_Costs_Ratio", 
+                   "Future_Pension_Costs_Ratio", "OPEB_Obligations_Ratio", "OPEB_Funding_Ratio")
+
+data_selected <- data_imputed[, selected_vars]
+
+# Split data into training (70%) and testing (30%) sets
+set.seed(101)
+train_index <- createDataPartition(data_selected$Overall_Risk, p = 0.7, list = FALSE)
+train_data <- data_selected[train_index, ]
+test_data <- data_selected[-train_index, ]
+
+set.seed(101)
+rf_model <- randomForest(Overall_Risk ~ ., data = train_data, 
+                         mtry = ncol(train_data) - 1, importance = TRUE)
+
+print(rf_model)
+```
+
+Here we fit a Random Forest Model using 10 splits (all predictors).   Looking at the results, we see an OOB error rate of 12.42% which means that the model misclassifies about 12.42% total observations. Furthermore, we can see that the Random Forest model tends to have a harder time predicted for the class "LOW." While the OOB error rate is relatively low, the class.error for LOW is extremely high. 
+
+```{r}
+# Variable Importance Plot
+importance(rf_model)
+varImpPlot(rf_model)
+```
+
+Variable importance for the Random Forest model was determined through: 1) Mean Decrease in Accuracy, and 2) Mean Decrease in Gini Impurity. 
+
+The first evaluates the model's accuracy by permuting each variable while the second shows how impurity in tree splits are reduced based on a variable's significance. In both these charts, general fund reserves has the greatest value. In other words, the general fund reserve is a significant contributor to predicting the overall risk. 
+
+```{r}
+# Predict on test data
+rf_predictions <- predict(rf_model, newdata = test_data)
+
+# Confusion Matrix and Accuracy
+rf_conf_matrix <- confusionMatrix(rf_predictions, test_data$Overall_Risk)
+print(rf_conf_matrix)
+```
+
+Using our Random Forest model based on our training data, the prediction accuracy relatively high at 93.6%. 
+
+```{r}
+### XGBOOST MODEL ###
+# Prepare data for XGBoost
+selected_vars_xg <- c("Overall_Risk", "General_Fund_Reserves_Ratio", "Debt_Burden_Ratio", 
+                   "Liquidity_Ratio", "Revenue_Trends_Ratio", "Pension_Obligations_Ratio", 
+                   "Pension_Funding_Ratio", "Pension_Costs_Ratio", 
+                   "Future_Pension_Costs_Ratio", "OPEB_Obligations_Ratio", "OPEB_Funding_Ratio")
+
+data_selected_xg <- data_imputed[, selected_vars_xg]
+
+set.seed(101)
+train_index_xg <- createDataPartition(data_selected_xg$Overall_Risk, p = 0.7, list = FALSE)
+train_data_xg <- data_selected[train_index_xg, ]
+test_data_xg <- data_selected[-train_index_xg, ]
+```
+
+```{r message=FALSE, warning=FALSE}
+suppressWarnings({
+  library(tidyverse)
+  library(caret)
+  library(xgboost)
+})
+
+train_control <- trainControl(method = "cv", number = 10)  # 10-fold CV
+
+# Train XGBoost model
+set.seed(101)
+xgb_model <- train(
+  Overall_Risk ~ ., 
+  data = train_data_xg, 
+  method = "xgbTree", 
+  trControl = train_control,
+  verbose = FALSE,
+  verbosity = 0
+)
+
+# Print model summary
+print(xgb_model)
+
+# Predict on test data
+xgb_predictions <- predict(xgb_model, newdata = test_data_xg)
+
+# Confusion Matrix and Accuracy
+xgb_conf_matrix <- confusionMatrix(xgb_predictions, test_data_xg$Overall_Risk)
+print(xgb_conf_matrix)
+```
+
+```{r}
+feature_importance <- varImp(xgb_model, scale = FALSE)
+
+# Plot importance
+plot(feature_importance, main = "Feature Importance in XGBoost Model")
+```
+
+We created an eXtreme Gradient Boosting (XGBoost) predictive model. The XGBoost model was trained using 10-fold cross validation and applied to the training dataset. The model was tuned using hyperparameters nrounds = 150, max_depth = 3, eta = 0.3, gamma = 0, colsample_bytree = 0.8, min_child_weight = 1 and subsample = 0.5. 
+
+Similar to the Random Forest model, the XGBoost model also performed relatively well achieving a prediction accuracy of 92%. Furthermore, looking at the statistics by class, we see the "LOW" class has the lowest prediction accuracy with only 2 out of 3 cases being correctly classified. On the other hand, levels like "MODERATE" and "HIGH" had a much higher classification rate. These results look very similar to our Random Forest model. 
+
+Furthermore, while looking at the feature importance plot, we see similar results of general fund reserves being a key contributor for risk classification. 
+
+However, unlike the Random Forest model, the XGBoost model is computationally expensive and even achieved a slightly lower accuracy rate. Due to its complexity and slower learning method of fitting each decision tree sequentially, there is a possibility that our data has been overfit. 
