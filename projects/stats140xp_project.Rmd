@@ -14,7 +14,6 @@ library(dplyr)
 data <- read.csv("C:/Users/nicol/Downloads/fy2019-20 (1).csv")
 ```
 
-
 ```{r}
 # Convert risk columns (columns 13:23) into factors
 # Standardize levels: ALL CAPS
@@ -26,13 +25,7 @@ for (i in 0:9){
 }
 ```
 
-Column num, Items 
-1: City Names 
-2-12: Rank 
-13-23: Risk 
-24-34: Points 
-35-44: Ratio 
-45-66: Other Numeric Data
+Column num, Items 1: City Names 2-12: Rank 13-23: Risk 24-34: Points 35-44: Ratio 45-66: Other Numeric Data
 
 ```{r}
 # Numeric Items
@@ -244,7 +237,7 @@ rf_model <- randomForest(Overall_Risk ~ ., data = train_data,
 print(rf_model)
 ```
 
-Here we fit a Random Forest Model using 10 splits (all predictors).   Looking at the results, we see an OOB error rate of 12.42% which means that the model misclassifies about 12.42% total observations. Furthermore, we can see that the Random Forest model tends to have a harder time predicted for the class "LOW." While the OOB error rate is relatively low, the class.error for LOW is extremely high. 
+Here we fit a Random Forest Model using 10 splits (all predictors). Looking at the results, we see an OOB error rate of 12.42% which means that the model misclassifies about 12.42% total observations. Furthermore, we can see that the Random Forest model tends to have a harder time predicted for the class "LOW." While the OOB error rate is relatively low, the class.error for LOW is extremely high.
 
 ```{r}
 # Variable Importance Plot
@@ -252,9 +245,9 @@ importance(rf_model)
 varImpPlot(rf_model)
 ```
 
-Variable importance for the Random Forest model was determined through: 1) Mean Decrease in Accuracy, and 2) Mean Decrease in Gini Impurity. 
+Variable importance for the Random Forest model was determined through: 1) Mean Decrease in Accuracy, and 2) Mean Decrease in Gini Impurity.
 
-The first evaluates the model's accuracy by permuting each variable while the second shows how impurity in tree splits are reduced based on a variable's significance. In both these charts, general fund reserves has the greatest value. In other words, the general fund reserve is a significant contributor to predicting the overall risk. 
+The first evaluates the model's accuracy by permuting each variable while the second shows how impurity in tree splits are reduced based on a variable's significance. In both these charts, general fund reserves has the greatest value. In other words, the general fund reserve is a significant contributor to predicting the overall risk.
 
 ```{r}
 # Predict on test data
@@ -265,7 +258,7 @@ rf_conf_matrix <- confusionMatrix(rf_predictions, test_data$Overall_Risk)
 print(rf_conf_matrix)
 ```
 
-Using our Random Forest model based on our training data, the prediction accuracy relatively high at 93.6%. 
+Using our Random Forest model based on our training data, the prediction accuracy relatively high at 93.6%.
 
 ```{r}
 ### XGBOOST MODEL ###
@@ -321,10 +314,10 @@ feature_importance <- varImp(xgb_model, scale = FALSE)
 plot(feature_importance, main = "Feature Importance in XGBoost Model")
 ```
 
-We created an eXtreme Gradient Boosting (XGBoost) predictive model. The XGBoost model was trained using 10-fold cross validation and applied to the training dataset. The model was tuned using hyperparameters nrounds = 150, max_depth = 3, eta = 0.3, gamma = 0, colsample_bytree = 0.8, min_child_weight = 1 and subsample = 0.5. 
+We created an eXtreme Gradient Boosting (XGBoost) predictive model. The XGBoost model was trained using 10-fold cross validation and applied to the training dataset. The model was tuned using hyperparameters nrounds = 150, max_depth = 3, eta = 0.3, gamma = 0, colsample_bytree = 0.8, min_child_weight = 1 and subsample = 0.5.
 
-Similar to the Random Forest model, the XGBoost model also performed relatively well achieving a prediction accuracy of 92%. Furthermore, looking at the statistics by class, we see the "LOW" class has the lowest prediction accuracy with only 2 out of 3 cases being correctly classified. On the other hand, levels like "MODERATE" and "HIGH" had a much higher classification rate. These results look very similar to our Random Forest model. 
+Similar to the Random Forest model, the XGBoost model also performed relatively well achieving a prediction accuracy of 92%. Furthermore, looking at the statistics by class, we see the "LOW" class has the lowest prediction accuracy with only 2 out of 3 cases being correctly classified. On the other hand, levels like "MODERATE" and "HIGH" had a much higher classification rate. These results look very similar to our Random Forest model.
 
-Furthermore, while looking at the feature importance plot, we see similar results of general fund reserves being a key contributor for risk classification. 
+Furthermore, while looking at the feature importance plot, we see similar results of general fund reserves being a key contributor for risk classification.
 
-However, unlike the Random Forest model, the XGBoost model is computationally expensive and even achieved a slightly lower accuracy rate. Due to its complexity and slower learning method of fitting each decision tree sequentially, there is a possibility that our data has been overfit. 
+However, unlike the Random Forest model, the XGBoost model is computationally expensive and even achieved a slightly lower accuracy rate. Due to its complexity and slower learning method of fitting each decision tree sequentially, there is a possibility that our data has been overfit.
